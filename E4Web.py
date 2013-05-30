@@ -31,5 +31,19 @@ class Web():
         """
         return headers[key.lower()] if key.lower() in headers else default
 
+    def grabResponse(self, packet, textResponse=False):
+        data = packet.data().split('\r\n')
+        if len(data) <= 0:
+            return None
+            
+        # Extract the response code out.
+        blob = re.search(r'(HTTP/[0-1.]+)\ ([0-9]+)\ ([a-zA-Z\ ]+)', data[0])
+        if blob == None:
+            return None
+        if textResponse == False:
+            return int(blob.group(2))
+        else:
+            return '%s %s' % (blob.group(2), blob.group(3))
+
     def extractSteams(self, packetLog):
         pass
