@@ -3,6 +3,9 @@ Entaphor (E4 or \n4)
 
 E4 is a light Scapy wrapper that makes it easy to process and work with TCP and UDP traffic. It also provides a number of small modules that will make working with web, dns, arp and other packets a breeze. Currently still a heavy WIP, but the underlying framework is there.
 
+Licensed under Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
+See the full license at http://creativecommons.org/licenses/by-sa/3.0/legalcode
+
 Example: Using E4 to capture all web packets, display the source and destination infromation and the HTTP Host header. If no packets are recieved within 60 seconds, the script times out and finishes.
 
 ```python
