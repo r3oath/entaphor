@@ -213,6 +213,9 @@ class Packet():
         except:
             return 'E4: Could not decompress data.'
 
+    def summary(self):
+        return self.packet.summary()
+
 class NetworkObject():
     """
     This class represents a network object (aka a client/server). It'll hold basic
