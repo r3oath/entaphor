@@ -13,7 +13,7 @@ class Web():
     def __init__(self):
         pass
 
-    def headers(self, packet):
+    def allHeaders(self, packet):
         headers = {}
         data = packet.data().split('\r\n')
 

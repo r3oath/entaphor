@@ -235,3 +235,12 @@ class NetworkObject():
 
     def getPort(self):
         return self.port
+
+    def setIP(self, ip):
+        self.ip = ip
+
+    def setMAC(self, mac):
+        self.mac = mac
+
+    def setPort(self, port):
+        self.port = port
